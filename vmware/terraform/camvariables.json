@@ -1,0 +1,567 @@
+{
+  "input_namespaces": [
+    {
+      "name": "advanced_content_runtime_chef",
+      "label": "Advanced Content Runtime"
+    }
+  ],
+  "output_namespace": "content_template_output",
+  "input_groups": [
+    {
+      "name": "cloud",
+      "label": "Cloud Input Variables"
+    },
+    {
+      "name": "virtualmachine",
+      "label": "Virtual Machine Input Variables"
+    },
+    {
+      "name": "ssh_keys",
+      "label": "SSH Keys"
+    },
+    {
+      "name": "environment",
+      "label": "Environment"
+    },
+    {
+      "name": "tomcatnode01",
+      "label": "TomcatNode01"
+    }
+  ],
+  "output_groups": [
+    {
+      "name": "content_template_output",
+      "label": "Outputs"
+    }
+  ],
+  "template_input_params": [
+    {
+      "name": "ibm_stack_name",
+      "type": "string",
+      "description": "A unique stack name.",
+      "hidden": true,
+      "label": "A unique stack name.",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "environment"
+    },
+    {
+      "name": "allow_unverified_ssl",
+      "type": "string",
+      "description": "Communication with vsphere server with self signed certificate",
+      "default": true,
+      "hidden": true,
+      "label": "Communication with vsphere server with self signed certificate",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "cloud"
+    },
+    {
+      "name": "TomcatNode01_dns_servers",
+      "type": "list",
+      "description": "DNS servers for the virtual network adapter",
+      "hidden": false,
+      "label": "DNS Servers - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_dns_suffixes",
+      "type": "list",
+      "description": "Name resolution suffixes for the virtual network adapter",
+      "hidden": false,
+      "label": "DNS Suffixes - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_root_disk_keep_on_remove",
+      "type": "string",
+      "description": "Delete template disk volume when the virtual machine is deleted",
+      "hidden": true,
+      "label": "Delete template disk volume when the virtual machine is deleted - tomcatnode01",
+      "secured": false,
+      "options": [
+        {
+          "value": "false",
+          "label": "False",
+          "default": "false"
+        },
+        {
+          "value": "true",
+          "label": "True"
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "ibm_pm_access_token",
+      "type": "string",
+      "description": "IBM Pattern Manager Access Token",
+      "hidden": true,
+      "label": "IBM Pattern Manager Access Token",
+      "secured": true,
+      "required": true,
+      "immutable": true,
+      "group_name": "environment",
+      "default": "${advanced_content_runtime_chef.ibm_pm_access_token}"
+    },
+    {
+      "name": "ibm_pm_service",
+      "type": "string",
+      "description": "IBM Pattern Manager Service",
+      "hidden": true,
+      "label": "IBM Pattern Manager Service",
+      "secured": false,
+      "required": true,
+      "immutable": true,
+      "group_name": "environment",
+      "default": "${advanced_content_runtime_chef.ibm_pm_service}"
+    },
+    {
+      "name": "ibm_sw_repo_password",
+      "type": "string",
+      "description": "IBM Software Repo Password",
+      "hidden": true,
+      "label": "IBM Software Repo Password",
+      "secured": true,
+      "required": true,
+      "immutable": true,
+      "group_name": "environment",
+      "default": "${advanced_content_runtime_chef.ibm_sw_repo_password}"
+    },
+    {
+      "name": "ibm_sw_repo",
+      "type": "string",
+      "description": "IBM Software Repo Root (https://<hostname>:<port>)",
+      "hidden": true,
+      "label": "IBM Software Repo Root",
+      "secured": false,
+      "required": true,
+      "immutable": true,
+      "group_name": "environment",
+      "default": "${advanced_content_runtime_chef.ibm_sw_repo}"
+    },
+    {
+      "name": "ibm_sw_repo_user",
+      "type": "string",
+      "description": "IBM Software Repo Username",
+      "default": "${advanced_content_runtime_chef.ibm_sw_repo_user}",
+      "hidden": true,
+      "label": "IBM Software Repo Username",
+      "secured": false,
+      "required": true,
+      "immutable": true,
+      "group_name": "environment"
+    },
+    {
+      "name": "TomcatNode01-image",
+      "type": "string",
+      "description": "Operating system image id / template that should be used when creating the virtual image",
+      "hidden": false,
+      "label": "Operating System ID / Template - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01-os_admin_user",
+      "type": "string",
+      "description": "Name of admin user account in virtual machine to be SSHed into; Please refer to the documents from OS image vendors to obtain the default admin users",
+      "hidden": false,
+      "label": "Operating System Username - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01-os_password",
+      "type": "string",
+      "description": "Operating System Password for the Operating System User to access virtual machine",
+      "hidden": false,
+      "label": "Operating System Password - TomcatNode01",
+      "secured": true,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "ibm_pm_private_ssh_key",
+      "type": "string",
+      "description": "Private CAMC SSH key (base64 encoded) used to connect to the virtual guest.",
+      "hidden": true,
+      "label": "Private CAMC SSH key (base64 encoded) used to connect to the virtual guest.",
+      "secured": true,
+      "required": true,
+      "immutable": true,
+      "group_name": "environment",
+      "default": "${advanced_content_runtime_chef.ibm_pm_private_ssh_key}"
+    },
+    {
+      "name": "ibm_pm_public_ssh_key",
+      "type": "string",
+      "description": "Public CAMC SSH key value which is used to connect to a guest, used on VMWare only.",
+      "hidden": true,
+      "label": "Public CAMC SSH key value which is used to connect to a guest, used on VMWare only.",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "environment",
+      "default": "${advanced_content_runtime_chef.ibm_pm_public_ssh_key}"
+    },
+    {
+      "name": "TomcatNode01-name",
+      "type": "string",
+      "description": "Short Hostname of virtual machine",
+      "hidden": false,
+      "label": "Short Hostname - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_root_disk_controller_type",
+      "type": "string",
+      "description": "Type of template disk controller",
+      "hidden": false,
+      "label": "Template Disk Controller - TomcatNode01",
+      "secured": false,
+      "options": [
+        {
+          "value": "scsi",
+          "label": "scsi",
+          "default": "true"
+        },
+        {
+          "value": "scsi-lsi-parallel",
+          "label": "scsi-lsi-parallel"
+        },
+        {
+          "value": "scsi-buslogic",
+          "label": "scsi-buslogic"
+        },
+        {
+          "value": "scsi-paravirtual",
+          "label": "scsi-paravirtual"
+        },
+        {
+          "value": "scsi-isi-sas",
+          "label": "scsi-isi-sas"
+        },
+        {
+          "value": "ide",
+          "label": "ide"
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_root_disk_datastore",
+      "type": "string",
+      "description": "Data store or storage cluster name for target virtual machine's disks",
+      "hidden": false,
+      "label": "Template Disk Datastore - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_root_disk_type",
+      "type": "string",
+      "description": "Type of template disk volume",
+      "hidden": false,
+      "label": "Template Disk Type - TomcatNode01",
+      "secured": false,
+      "options": [
+        {
+          "value": "eager_zeroed",
+          "label": "Thick Provision Eager Zeroed",
+          "default": "true"
+        },
+        {
+          "value": "lazy",
+          "label": "Thick Provision Lazy Zeroed"
+        },
+        {
+          "value": "Thin Provision",
+          "label": "Thin ProvisionD",
+          "group_name": "cloud"
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "cloud"
+    },
+    {
+      "name": "TomcatNode01_tomcat_http_port",
+      "type": "string",
+      "description": "The Tomcat port to service HTTP requests.",
+      "default": "8080",
+      "hidden": false,
+      "label": "Tomcat HTTP port - tomcatnode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "TomcatNode01_tomcat_ssl_keystore_password",
+      "type": "string",
+      "description": "The keystore password used in Tomcat for SSL configuration.",
+      "hidden": false,
+      "label": "Tomcat SSL keystore password - tomcatnode01",
+      "secured": true,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "TomcatNode01_tomcat_ssl_port",
+      "type": "string",
+      "description": "Tomcat port for SSL communication",
+      "default": "8443",
+      "hidden": false,
+      "label": "Tomcat SSL port - tomcatnode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "TomcatNode01_tomcat_ui_control_users_administrator_status",
+      "type": "string",
+      "description": "Specifies whether to enable the admin user in the Tomcat configuration.",
+      "default": "enabled",
+      "hidden": false,
+      "label": "Tomcat admin status - tomcatnode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "tomcat_ui_control_users_administrator_password",
+      "type": "string",
+      "description": "Password of the admin user to be configured in Tomcat.",
+      "hidden": false,
+      "label": "Tomcat admin user password",
+      "secured": true,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "TomcatNode01_tomcat_ui_control_users_administrator_name",
+      "type": "string",
+      "description": "Name of the admin user to be configured in Tomcat.",
+      "default": "admin",
+      "hidden": false,
+      "label": "Tomcat admin username - tomcatnode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "TomcatNode01_tomcat_version",
+      "type": "string",
+      "description": "The version of Tomcat to be installed.",
+      "default": "8.0.15",
+      "hidden": false,
+      "label": "Tomcat install version - tomcatnode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "TomcatNode01_tomcat_java_version",
+      "type": "string",
+      "description": "The version of Java to be used for Tomcat.",
+      "default": "1.8.0",
+      "hidden": false,
+      "label": "Tomcat java version - tomcatnode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "TomcatNode01_tomcat_java_java_sdk",
+      "type": "string",
+      "description": "Specifies the use of a Java Development Kit or Runtime Environment.",
+      "default": "false",
+      "hidden": false,
+      "label": "Tomcat java_flavor - tomcatnode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "tomcatnode01"
+    },
+    {
+      "name": "user_public_ssh_key",
+      "type": "string",
+      "description": "User defined public SSH key used to connect to the virtual machine, whose format is required to be the openSSH key format with optional comment",
+      "default": "None",
+      "hidden": false,
+      "label": "User Public SSH Key - ssh_keys",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "ssh_keys"
+    },
+    {
+      "name": "TomcatNode01_ipv4_gateway",
+      "type": "string",
+      "description": "IPv4 gateway for vNIC configuration",
+      "hidden": false,
+      "label": "Virtual Machine Gateway Address - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_ipv4_address",
+      "type": "string",
+      "description": "IPv4 address for vNIC configuration",
+      "hidden": false,
+      "label": "Virtual Machine IP Address - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_memory",
+      "type": "string",
+      "description": "Memory for virtual machine in MBs, which is required to be one or more times of 1024",
+      "default": 2048,
+      "hidden": false,
+      "label": "Virtual Machine Memory - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_ipv4_prefix_length",
+      "type": "string",
+      "description": "IPv4 Prefix length for vNIC configuration, which is required to be numbers between 8 and 32",
+      "hidden": false,
+      "label": "Virtual Machine Netmask Prefix - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_number_of_vcpu",
+      "type": "string",
+      "description": "Number of virtual CPU for the virtual machine, which is required to be a positive Integer",
+      "default": 2,
+      "hidden": false,
+      "label": "Virtual Machine vCPUs - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_network_interface_label",
+      "type": "string",
+      "description": "vSphere port group or network label for virtual machine's vNIC",
+      "hidden": false,
+      "label": "Virtual Machine vSphere Port Group - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_cluster",
+      "type": "string",
+      "description": "Target vSphere cluster to host the virtual machine",
+      "hidden": false,
+      "label": "vSphere Cluster - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "cloud"
+    },
+    {
+      "name": "TomcatNode01_datacenter",
+      "type": "string",
+      "description": "Target vSphere Datacenter for virtual machine creation",
+      "hidden": false,
+      "label": "vSphere Datacenter - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "cloud"
+    },
+    {
+      "name": "TomcatNode01_folder",
+      "type": "string",
+      "description": "Target vSphere folder for virtual machine",
+      "hidden": false,
+      "label": "vSphere Folder Name - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "cloud"
+    }
+  ],
+  "template_output_params": [
+    {
+      "name": "TomcatNode01_ip",
+      "label": "IP Addresss",
+      "description": "The Public and Public IP address",
+      "type": "string",
+      "hidden": false,
+      "secured": false,
+      "group_name": "content_template_output"
+    },
+    {
+      "name": "TomcatNode01_name",
+      "label": "Node Name",
+      "description": "The chef node name",
+      "type": "string",
+      "hidden": false,
+      "secured": false,
+      "group_name": "content_template_output"
+    },
+    {
+      "name": "TomcatNode01_roles",
+      "label": "Chef Roles",
+      "description": "The chef roles deployed",
+      "type": "string",
+      "hidden": false,
+      "secured": false,
+      "group_name": "content_template_output"
+    },
+    {
+      "name": "stack_id",
+      "label": "Generated Stack ID",
+      "description": "The generated stack id",
+      "type": "string",
+      "hidden": false,
+      "secured": false,
+      "group_name": "content_template_output"
+    }
+  ]
+}

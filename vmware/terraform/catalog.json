@@ -1,0 +1,63 @@
+{
+    "name": "Apache Tomcat Deployment on a Single VM - VMware vSphere",
+    "description": "This template will install Apache Tomcat Server on a single Linux Node.",
+    "version": "1.0",
+    "imageUrl": "",
+    "image": "",
+    "type": "chefcontent",
+    "status": "active",
+    "manifest": {
+      "template_type": "Terraform",
+      "template_format": "HCL",
+      "template_provider": "VMware vSphere",
+      "template": {
+        "templateData": "",
+        "templateVariables": "",
+        "templateOutput": ""
+      },
+      "template_source": {
+        "githubRepoUrl": "",
+        "githubAccessToken": "",
+        "relativePathToTemplateFolder": "vmware/terraform",
+        "templateFileName": "apache_tomcat_v8_standalone.tf"
+      }
+    },
+    "metadata": {
+      "displayName": "Apache Tomcat Deployment on a Single VM",
+      "providerDisplayName": "VMware vSphere",
+      "longDescription": "This template will install Apache Tomcat Server on a single Linux Node.",
+      "bullets": [{
+    "title": "Clouds",
+    "description": " VMWare<br>"},
+{
+    "title": "Template Version",
+    "description": "1.0<br>"},
+{
+    "title": "Operating Systems Supported",
+    "description": "Redhat 6, Redhat 7, Ubuntu 16.04<br>"},
+{
+    "title": "Topology",
+    "description": "1) Linux Virual Machine with Apache Tomcat Server<br>"},
+{
+    "title": "Software Deployed",
+    "description": "- Apache Tomcat Server Version 8<br>"},
+{
+    "title": "Default Virtual Machine Settings",
+    "description": " VCPU = 1, Memory = 4GB, Storage = 20GB<br>"},
+{
+    "title": "Usage and Special Notes",
+    "description": "1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>2. Detailed system requirements for Apache HTTPd - http://tomcat.apache.org/<br>"}
+],
+      "featuredImageUrl": "",
+      "imageUrl": "",
+      "mediumImageUrl": "",
+      "smallImageUrl": "",
+      "documentationUrl": "",
+      "termsUrl": "",
+      "media": [
+      ]
+    },
+    "toolchain": {
+      "git": "https://github.com/ibmcam/cam-toolchain"
+    }
+}
