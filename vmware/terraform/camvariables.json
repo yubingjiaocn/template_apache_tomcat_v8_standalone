@@ -59,6 +59,18 @@
       "group_name": "cloud"
     },
     {
+      "name": "user_public_ssh_key",
+      "type": "string",
+      "description": "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH.",
+      "default": "None",
+      "hidden": false,
+      "label": "User Public SSH Key - ssh_keys",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "ssh_keys"
+    },
+    {
       "name": "TomcatNode01_dns_servers",
       "type": "list",
       "description": "DNS servers for the virtual network adapter",
@@ -83,9 +95,9 @@
     {
       "name": "TomcatNode01_root_disk_keep_on_remove",
       "type": "string",
-      "description": "Delete template disk volume when the virtual machine is deleted",
+      "description": "Delete template disk volume when the virtual machine is deleted",
       "hidden": true,
-      "label": "Delete template disk volume when the virtual machine is deleted - tomcatnode01",
+      "label": "Delete template disk volume when the virtual machine is deleted - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -98,6 +110,17 @@
           "label": "True"
         }
       ],
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_domain",
+      "type": "string",
+      "description": "Domain Name of virtual machine",
+      "hidden": false,
+      "label": "Domain Name - TomcatNode01",
+      "secured": false,
       "required": true,
       "immutable": false,
       "group_name": "virtualmachine"
@@ -189,7 +212,7 @@
       "type": "string",
       "description": "Operating System Password for the Operating System User to access virtual machine",
       "hidden": false,
-      "label": "Operating System Password - TomcatNode01",
+      "label": "Operating system password - TomcatNode01",
       "secured": true,
       "required": true,
       "immutable": false,
@@ -210,9 +233,9 @@
     {
       "name": "ibm_pm_public_ssh_key",
       "type": "string",
-      "description": "Public CAMC SSH key value which is used to connect to a guest, used on VMWare only.",
+      "description": "Public CAMC SSH key value which is used to connect to a guest, used on VMware only.",
       "hidden": true,
-      "label": "Public CAMC SSH key value which is used to connect to a guest, used on VMWare only.",
+      "label": "Public CAMC SSH key value which is used to connect to a guest, used on VMware only.",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -297,14 +320,14 @@
           "label": "Thick Provision Lazy Zeroed"
         },
         {
-          "value": "Thin Provision",
-          "label": "Thin ProvisionD",
-          "group_name": "cloud"
+          "value": "thin",
+          "label": "Thin Provision",
+          "group_name": "virtualmachine"
         }
       ],
       "required": true,
       "immutable": false,
-      "group_name": "cloud"
+      "group_name": "virtualmachine"
     },
     {
       "name": "TomcatNode01_tomcat_http_port",
@@ -312,7 +335,7 @@
       "description": "The Tomcat port to service HTTP requests.",
       "default": "8080",
       "hidden": false,
-      "label": "Tomcat HTTP port - tomcatnode01",
+      "label": "Tomcat HTTP port - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -323,8 +346,10 @@
       "type": "string",
       "description": "The keystore password used in Tomcat for SSL configuration.",
       "hidden": false,
-      "label": "Tomcat SSL keystore password - tomcatnode01",
+      "label": "Tomcat SSL keystore password - TomcatNode01",
       "secured": true,
+      "regex": "^[!-~]{8,32}$",
+      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "required": true,
       "immutable": false,
       "group_name": "tomcatnode01"
@@ -335,7 +360,7 @@
       "description": "Tomcat port for SSL communication",
       "default": "8443",
       "hidden": false,
-      "label": "Tomcat SSL port - tomcatnode01",
+      "label": "Tomcat SSL port - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -347,7 +372,7 @@
       "description": "Specifies whether to enable the admin user in the Tomcat configuration.",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat admin status - tomcatnode01",
+      "label": "Tomcat admin status - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -360,9 +385,11 @@
       "hidden": false,
       "label": "Tomcat admin user password",
       "secured": true,
+      "regex": "^[!-~]{8,32}$",
+      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "required": true,
       "immutable": false,
-      "group_name": "tomcatnode01"
+      "group_name": "environment"
     },
     {
       "name": "TomcatNode01_tomcat_ui_control_users_administrator_name",
@@ -370,7 +397,7 @@
       "description": "Name of the admin user to be configured in Tomcat.",
       "default": "admin",
       "hidden": false,
-      "label": "Tomcat admin username - tomcatnode01",
+      "label": "Tomcat admin username - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -382,7 +409,7 @@
       "description": "The version of Tomcat to be installed.",
       "default": "8.0.15",
       "hidden": false,
-      "label": "Tomcat install version - tomcatnode01",
+      "label": "Tomcat install version - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -394,7 +421,7 @@
       "description": "The version of Java to be used for Tomcat.",
       "default": "1.8.0",
       "hidden": false,
-      "label": "Tomcat java version - tomcatnode01",
+      "label": "Tomcat java version - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -406,23 +433,11 @@
       "description": "Specifies the use of a Java Development Kit or Runtime Environment.",
       "default": "false",
       "hidden": false,
-      "label": "Tomcat java_flavor - tomcatnode01",
+      "label": "Tomcat java_flavor - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
       "group_name": "tomcatnode01"
-    },
-    {
-      "name": "user_public_ssh_key",
-      "type": "string",
-      "description": "User defined public SSH key used to connect to the virtual machine, whose format is required to be the openSSH key format with optional comment",
-      "default": "None",
-      "hidden": false,
-      "label": "User Public SSH Key - ssh_keys",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "ssh_keys"
     },
     {
       "name": "TomcatNode01_ipv4_gateway",
@@ -449,7 +464,7 @@
     {
       "name": "TomcatNode01_memory",
       "type": "string",
-      "description": "Memory for virtual machine in MBs, which is required to be one or more times of 1024",
+      "description": "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024",
       "default": 2048,
       "hidden": false,
       "label": "Virtual Machine Memory - TomcatNode01",
@@ -461,7 +476,7 @@
     {
       "name": "TomcatNode01_ipv4_prefix_length",
       "type": "string",
-      "description": "IPv4 Prefix length for vNIC configuration, which is required to be numbers between 8 and 32",
+      "description": "IPv4 prefix length for vNIC configuration. The value must be a number between 8 and 32",
       "hidden": false,
       "label": "Virtual Machine Netmask Prefix - TomcatNode01",
       "secured": false,
@@ -506,7 +521,7 @@
     {
       "name": "TomcatNode01_datacenter",
       "type": "string",
-      "description": "Target vSphere Datacenter for virtual machine creation",
+      "description": "Target vSphere datacenter for virtual machine creation",
       "hidden": false,
       "label": "vSphere Datacenter - TomcatNode01",
       "secured": false,

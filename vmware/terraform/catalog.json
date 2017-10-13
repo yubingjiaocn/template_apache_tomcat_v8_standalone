@@ -1,5 +1,5 @@
 {
-    "name": "Apache Tomcat Deployment on a Single VM - VMware vSphere",
+    "name": "Apache Tomcat Deployment on a single virtual machine - VMware vSphere",
     "description": "This template will install Apache Tomcat Server on a single Linux Node.",
     "version": "1.0",
     "imageUrl": "",
@@ -23,7 +23,7 @@
       }
     },
     "metadata": {
-      "displayName": "Apache Tomcat Deployment on a Single VM",
+      "displayName": "Apache Tomcat Deployment on a single virtual machine",
       "providerDisplayName": "VMware vSphere",
       "longDescription": "This template will install Apache Tomcat Server on a single Linux Node.",
       "bullets": [{
@@ -34,19 +34,19 @@
     "description": "1.0<br>"},
 {
     "title": "Operating Systems Supported",
-    "description": "Redhat 6, Redhat 7, Ubuntu 16.04<br>"},
+    "description": "Red Hat Enterprise Linux 7<br>Ubuntu 16.04<br>"},
 {
     "title": "Topology",
-    "description": "1) Linux Virual Machine with Apache Tomcat Server<br>"},
+    "description": "1 virtual machine:<br>  Linux Virual Machine with Apache Tomcat Server<br>"},
 {
     "title": "Software Deployed",
-    "description": "- Apache Tomcat Server Version 8<br>"},
+    "description": "Apache Tomcat Server Version 8<br>"},
 {
     "title": "Default Virtual Machine Settings",
     "description": " VCPU = 1, Memory = 4GB, Storage = 20GB<br>"},
 {
     "title": "Usage and Special Notes",
-    "description": "1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>2. Detailed system requirements for Apache HTTPd - http://tomcat.apache.org/<br>"}
+    "description": "1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>2. Detailed system requirements for Apache HTTPd - <a href=\"http://tomcat.apache.org/\" target=\"_blank\">http://tomcat.apache.org</a><br>"}
 ],
       "featuredImageUrl": "",
       "imageUrl": "",
