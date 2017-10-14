@@ -1,15 +1,15 @@
-# Template - Apache Tomcat Deployment on a single virtual machine
+# Template - Apache Tomcat on a single virtual machine
 Template Version - 1.0
 
 ## Description
 
-This template will install Apache Tomcat Server on a single Linux Node.<br>
+This template deploys Apache Tomcat on a Linux virtual machine.<br>
 
 ## Features
 
 ### Clouds
 
- VMWare<br>
+ VMware<br>
 <br>
 ### Template Version
 
@@ -23,20 +23,20 @@ Ubuntu 16.04<br>
 ### Topology
 
 1 virtual machine:<br>
-  Linux Virual Machine with Apache Tomcat Server<br>
+  Apache Tomcat server<br>
 <br>
 ### Software Deployed
 
-Apache Tomcat Server Version 8<br>
+Apache Tomcat V8<br>
 <br>
 ### Default Virtual Machine Settings
 
- VCPU = 1, Memory = 4GB, Storage = 20GB<br>
+ vCPU 2, Memory (GB) 4<br>
 <br>
 ### Usage and Special Notes
 
 1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>
-2. Detailed system requirements for Apache HTTPd - <a href=\"http://tomcat.apache.org/\" target=\"_blank\">http://tomcat.apache.org</a><br>
+2. Detailed system requirements for Apache Tomcat - <a href=\"http://tomcat.apache.org/\" target=\"_blank\">http://tomcat.apache.org</a><br>
 <br>
 
 

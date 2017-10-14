@@ -1,6 +1,6 @@
 {
-    "name": "Apache Tomcat Deployment on a single virtual machine - VMware vSphere",
-    "description": "This template will install Apache Tomcat Server on a single Linux Node.",
+    "name": "Apache Tomcat on a single virtual machine - VMware vSphere",
+    "description": "This template deploys Apache Tomcat on a Linux virtual machine.",
     "version": "1.0",
     "imageUrl": "",
     "image": "",
@@ -23,12 +23,12 @@
       }
     },
     "metadata": {
-      "displayName": "Apache Tomcat Deployment on a single virtual machine",
+      "displayName": "Apache Tomcat on a single virtual machine",
       "providerDisplayName": "VMware vSphere",
-      "longDescription": "This template will install Apache Tomcat Server on a single Linux Node.",
+      "longDescription": "This template deploys Apache Tomcat on a Linux virtual machine.",
       "bullets": [{
     "title": "Clouds",
-    "description": " VMWare<br>"},
+    "description": " VMware<br>"},
 {
     "title": "Template Version",
     "description": "1.0<br>"},
@@ -37,16 +37,16 @@
     "description": "Red Hat Enterprise Linux 7<br>Ubuntu 16.04<br>"},
 {
     "title": "Topology",
-    "description": "1 virtual machine:<br>  Linux Virual Machine with Apache Tomcat Server<br>"},
+    "description": "1 virtual machine:<br>  Apache Tomcat server<br>"},
 {
     "title": "Software Deployed",
-    "description": "Apache Tomcat Server Version 8<br>"},
+    "description": "Apache Tomcat V8<br>"},
 {
     "title": "Default Virtual Machine Settings",
-    "description": " VCPU = 1, Memory = 4GB, Storage = 20GB<br>"},
+    "description": " vCPU 2, Memory (GB) 4<br>"},
 {
     "title": "Usage and Special Notes",
-    "description": "1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>2. Detailed system requirements for Apache HTTPd - <a href=\"http://tomcat.apache.org/\" target=\"_blank\">http://tomcat.apache.org</a><br>"}
+    "description": "1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>2. Detailed system requirements for Apache Tomcat - <a href=\"http://tomcat.apache.org/\" target=\"_blank\">http://tomcat.apache.org</a><br>"}
 ],
       "featuredImageUrl": "",
       "imageUrl": "",
