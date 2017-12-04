@@ -1,5 +1,5 @@
 {
-    "name": "Apache Tomcat on a single virtual machine - VMware vSphere",
+    "name": "Apache Tomcat on a single virtual machine - IBM",
     "description": "This template deploys Apache Tomcat on a Linux virtual machine.",
     "version": "1.0.2",
     "imageUrl": "",
@@ -9,7 +9,7 @@
     "manifest": {
       "template_type": "Terraform",
       "template_format": "HCL",
-      "template_provider": "VMware vSphere",
+      "template_provider": "IBM",
       "template": {
         "templateData": "",
         "templateVariables": "",
@@ -18,17 +18,17 @@
       "template_source": {
         "githubRepoUrl": "",
         "githubAccessToken": "",
-        "relativePathToTemplateFolder": "vmware/terraform",
+        "relativePathToTemplateFolder": "ibmcloud/terraform",
         "templateFileName": "apache_tomcat_v8_standalone.tf"
       }
     },
     "metadata": {
       "displayName": "Apache Tomcat on a single virtual machine",
-      "providerDisplayName": "VMware vSphere",
+      "providerDisplayName": "IBM",
       "longDescription": "This template deploys Apache Tomcat on a Linux virtual machine.",
       "bullets": [{
     "title": "Clouds",
-    "description": " VMware<br>"},
+    "description": " IBM<br>"},
 {
     "title": "Template Version",
     "description": "1.0.2<br>"},
@@ -43,7 +43,7 @@
     "description": "Apache Tomcat Server Version 8<br>"},
 {
     "title": "Default Virtual Machine Settings",
-    "description": " vCPU 2, Memory (GB) 4<br>"},
+    "description": " Cores 2, RAM (GB) 4, SAN Disk (GB) 25<br>"},
 {
     "title": "Usage and Special Notes",
     "description": "1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>2. Detailed system requirements for Apache Tomcat - <a href=\"http://tomcat.apache.org/\" target=\"_blank\">http://tomcat.apache.org</a><br>"}
