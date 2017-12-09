@@ -26,12 +26,12 @@ variable "user_public_ssh_key" {
 }
 
 variable "aws_ami_owner_id" {
-  description = "The AMI Owner ID"
+  description = "AWS AMI Owner ID"
   default = "309956199498"
 }
 
 variable "aws_region" {
-  description = "The aws region"
+  description = "AWS Region Name"
   default = "us-east-1"
 }
 
@@ -47,6 +47,10 @@ provider "camc" {
   version = "~> 0.1"
 }
 
+provider "template" {
+  version = "~> 1.0"
+}
+
 provider "random" {
   version = "~> 1.0"
 }
@@ -60,7 +64,7 @@ data "aws_vpc" "selected_vpc" {
 
 #Parameter : aws_vpc_name
 variable "aws_vpc_name" {
-  description = "The name of the aws vpc"
+  description = "AWS VPC Name"
 }
 
 data "aws_security_group" "aws_sg_camc_name_selected" {
@@ -70,7 +74,7 @@ data "aws_security_group" "aws_sg_camc_name_selected" {
 
 #Parameter : aws_sg_camc_name
 variable "aws_sg_camc_name" {
-  description = "The name of the aws security group for automation content"
+  description = "AWS Security Group Name"
 }
 
 resource "random_id" "stack_id" {
@@ -85,15 +89,6 @@ variable "ibm_stack_name" {
   description = "A unique stack name."
 }
 
-#### Default OS Admin User Map ####
-variable "default_os_admin_user" {
-  type        = "map"
-  description = "look up os_admin_user using resource image"
-  default = {
-    ubuntu_images_ubuntu_xenial-16.04_099720109477 = "ubuntu"
-    RHEL-7.4_HVM_GA_309956199498                   = "ec2-user"
-  }
-}
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
@@ -129,12 +124,6 @@ variable "ibm_sw_repo_user" {
 
 
 ##### TomcatNode01 variables #####
-#Variable : TomcatNode01-flavor
-variable "TomcatNode01-flavor" {
-  type = "string"
-  description = "TomcatNode01 Flavor"
-}
-
 data "aws_ami" "TomcatNode01_ami" {
   most_recent = true
   filter {
@@ -151,23 +140,16 @@ variable "TomcatNode01-image" {
   default = "RHEL-7.4_HVM_GA"
 }
 
-#Variable : TomcatNode01-mgmt-network-public
-variable "TomcatNode01-mgmt-network-public" {
-  type = "string"
-  description = "Expose and use public IP of virtual machine for internal communication"
-  default = "true"
-}
-
 #Variable : TomcatNode01-name
 variable "TomcatNode01-name" {
   type = "string"
-  description = "Short Hostname of virtual machine"
+  description = "Short hostname of virtual machine"
 }
 
 #Variable : TomcatNode01-os_admin_user
 variable "TomcatNode01-os_admin_user" {
   type = "string"
-  description = "Name of admin user account in virtual machine to be SSHed into; Please refer to the documents from OS image vendors to obtain the default admin users"
+  description = "Name of the admin user account in the virtual machine that will be accessed via SSH"
 }
 
 #Variable : TomcatNode01_tomcat_http_port
@@ -371,6 +353,22 @@ variable "TomcatNode01_tomcat_version" {
   default = "8.0.15"
 }
 
+
+##### virtualmachine variables #####
+#Variable : TomcatNode01-flavor
+variable "TomcatNode01-flavor" {
+  type = "string"
+  description = "TomcatNode01 Flavor"
+  default = "t2.medium"
+}
+
+#Variable : TomcatNode01-mgmt-network-public
+variable "TomcatNode01-mgmt-network-public" {
+  type = "string"
+  description = "Expose and use public IP of virtual machine for internal communication"
+  default = "true"
+}
+
 ##### domain name #####
 variable "runtime_domain" {
   description = "domain name"
@@ -400,7 +398,7 @@ variable "TomcatNode01_subnet_name" {
 #Parameter : TomcatNode01_associate_public_ip_address
 variable "TomcatNode01_associate_public_ip_address" {
   type = "string"
-  description = "Assign a public IP"
+  description = "AWS assign a public IP to instance"
   default = "true"
 }
 
@@ -417,7 +415,7 @@ variable "TomcatNode01_root_block_device_volume_type" {
 variable "TomcatNode01_root_block_device_volume_size" {
   type = "string"
   description = "AWS Root Block Device Volume Size"
-  default = "25"
+  default = "100"
 }
 
 
@@ -441,7 +439,7 @@ resource "aws_instance" "TomcatNode01" {
 
   # Specify the ssh connection
   connection {
-    user = "${var.TomcatNode01-os_admin_user == "" ? lookup(var.default_os_admin_user, format("%s_%s", replace(var.TomcatNode01-image, "/", "_"), var.aws_ami_owner_id)) : var.TomcatNode01-os_admin_user}"
+    user = "${var.TomcatNode01-os_admin_user}"
     private_key = "${base64decode(var.ibm_pm_private_ssh_key)}"
   }
 
@@ -511,7 +509,7 @@ data "template_cloudinit_config" "TomcatNode01_init"  {
   part {
     content_type = "text/cloud-config"
     content = <<EOF
-hostname: ${var.TomcatNode01-name}
+hostname: ${var.TomcatNode01-name}.${var.runtime_domain}
 fqdn: ${var.TomcatNode01-name}.${var.runtime_domain}
 manage_etc_hosts: false
 EOF
@@ -531,7 +529,7 @@ resource "camc_bootstrap" "TomcatNode01_chef_bootstrap_comp" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.TomcatNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, format("%s_%s", replace(var.TomcatNode01-image, "/", "_"), var.aws_ami_owner_id)) : var.TomcatNode01-os_admin_user}",
+  "os_admin_user": "${var.TomcatNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.TomcatNode01-mgmt-network-public == "false" ? aws_instance.TomcatNode01.private_ip : aws_instance.TomcatNode01.public_ip}",
@@ -564,7 +562,7 @@ resource "camc_softwaredeploy" "TomcatNode01_tomcat" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.TomcatNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, format("%s_%s", replace(var.TomcatNode01-image, "/", "_"), var.aws_ami_owner_id)) : var.TomcatNode01-os_admin_user}",
+  "os_admin_user": "${var.TomcatNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.TomcatNode01-mgmt-network-public == "false" ? aws_instance.TomcatNode01.private_ip : aws_instance.TomcatNode01.public_ip}",

@@ -61,15 +61,6 @@ variable "ibm_stack_name" {
   description = "A unique stack name."
 }
 
-#### Default OS Admin User Map ####
-variable "default_os_admin_user" {
-  type        = "map"
-  description = "look up os_admin_user using resource image"
-  default = {
-    UBUNTU_16_64 = "root"
-    REDHAT_7_64 = "root"
-  }
-}
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
@@ -112,23 +103,16 @@ variable "TomcatNode01-image" {
   default = "REDHAT_7_64"
 }
 
-#Variable : TomcatNode01-mgmt-network-public
-variable "TomcatNode01-mgmt-network-public" {
-  type = "string"
-  description = "Expose and use public IP of virtual machine for internal communication"
-  default = "true"
-}
-
 #Variable : TomcatNode01-name
 variable "TomcatNode01-name" {
   type = "string"
-  description = "Short Hostname of virtual machine"
+  description = "Short hostname of virtual machine"
 }
 
 #Variable : TomcatNode01-os_admin_user
 variable "TomcatNode01-os_admin_user" {
   type = "string"
-  description = "Name of admin user account in virtual machine to be SSHed into; Please refer to the documents from OS image vendors to obtain the default admin users"
+  description = "Name of the admin user account in the virtual machine that will be accessed via SSH"
 }
 
 #Variable : TomcatNode01_tomcat_http_port
@@ -333,6 +317,15 @@ variable "TomcatNode01_tomcat_version" {
 }
 
 
+##### virtualmachine variables #####
+#Variable : TomcatNode01-mgmt-network-public
+variable "TomcatNode01-mgmt-network-public" {
+  type = "string"
+  description = "Expose and use public IP of virtual machine for internal communication"
+  default = "true"
+}
+
+
 ##### ungrouped variables #####
 ##### domain name #####
 variable "runtime_domain" {
@@ -366,7 +359,7 @@ variable "TomcatNode01_private_network_only" {
 variable "TomcatNode01_number_of_cores" {
   type = "string"
   description = "Number of CPU cores, which is required to be a positive Integer"
-  default = "1"
+  default = "2"
 }
 
 
@@ -374,7 +367,7 @@ variable "TomcatNode01_number_of_cores" {
 variable "TomcatNode01_memory" {
   type = "string"
   description = "Amount of Memory (MBs), which is required to be one or more times of 1024"
-  default = "1024"
+  default = "4096"
 }
 
 
@@ -431,7 +424,7 @@ resource "ibm_compute_vm_instance" "TomcatNode01" {
   ssh_key_ids = ["${data.ibm_compute_ssh_key.ibm_pm_public_key.id}"]
   # Specify the ssh connection
   connection {
-    user = "${var.TomcatNode01-os_admin_user == "" ? lookup(var.default_os_admin_user, var.TomcatNode01-image) : var.TomcatNode01-os_admin_user}"
+    user = "${var.TomcatNode01-os_admin_user}"
     private_key = "${base64decode(var.ibm_pm_private_ssh_key)}"
   }
 
@@ -503,7 +496,7 @@ resource "camc_bootstrap" "TomcatNode01_chef_bootstrap_comp" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.TomcatNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, var.TomcatNode01-image) : var.TomcatNode01-os_admin_user}",
+  "os_admin_user": "${var.TomcatNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.TomcatNode01-mgmt-network-public == "false" ? ibm_compute_vm_instance.TomcatNode01.ipv4_address_private : ibm_compute_vm_instance.TomcatNode01.ipv4_address}",
@@ -536,7 +529,7 @@ resource "camc_softwaredeploy" "TomcatNode01_tomcat" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.TomcatNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, var.TomcatNode01-image) : var.TomcatNode01-os_admin_user}",
+  "os_admin_user": "${var.TomcatNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.TomcatNode01-mgmt-network-public == "false" ? ibm_compute_vm_instance.TomcatNode01.ipv4_address_private : ibm_compute_vm_instance.TomcatNode01.ipv4_address}",

@@ -58,7 +58,6 @@ variable "ibm_stack_name" {
   description = "A unique stack name."
 }
 
-#### Default OS Admin User Map ####
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
@@ -103,13 +102,13 @@ variable "TomcatNode01-image" {
 #Variable : TomcatNode01-name
 variable "TomcatNode01-name" {
   type = "string"
-  description = "Short Hostname of virtual machine"
+  description = "Short hostname of virtual machine"
 }
 
 #Variable : TomcatNode01-os_admin_user
 variable "TomcatNode01-os_admin_user" {
   type = "string"
-  description = "Name of admin user account in virtual machine to be SSHed into; Please refer to the documents from OS image vendors to obtain the default admin users"
+  description = "Name of the admin user account in the virtual machine that will be accessed via SSH"
 }
 
 #Variable : TomcatNode01_tomcat_http_port
@@ -314,6 +313,8 @@ variable "TomcatNode01_tomcat_version" {
 }
 
 
+##### virtualmachine variables #####
+
 #########################################################
 ##### Resource : TomcatNode01
 #########################################################
@@ -337,12 +338,12 @@ variable "TomcatNode01_domain" {
 
 variable "TomcatNode01_number_of_vcpu" {
   description = "Number of virtual CPU for the virtual machine, which is required to be a positive Integer"
-  default = "1"
+  default = "2"
 }
 
 variable "TomcatNode01_memory" {
   description = "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024"
-  default = "1024"
+  default = "4096"
 }
 
 variable "TomcatNode01_cluster" {

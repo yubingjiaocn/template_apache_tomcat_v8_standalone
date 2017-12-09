@@ -12,10 +12,6 @@
       "label": "Cloud Input Variables"
     },
     {
-      "name": "virtualmachine",
-      "label": "Virtual Machine Input Variables"
-    },
-    {
       "name": "ssh_keys",
       "label": "SSH Keys"
     },
@@ -26,6 +22,10 @@
     {
       "name": "tomcatnode01",
       "label": "TomcatNode01"
+    },
+    {
+      "name": "virtualmachine",
+      "label": "Virtual Machine Input Variables"
     },
     {
       "name": "ungrouped",
@@ -111,6 +111,29 @@
       "group_name": "environment"
     },
     {
+      "name": "TomcatNode01_local_disk",
+      "type": "string",
+      "description": "User local disk or SAN disk",
+      "default": "false",
+      "hidden": false,
+      "label": "IBMCloud - Local / SAN Disk - TomcatNode01",
+      "secured": false,
+      "options": [
+        {
+          "value": "true",
+          "label": "True"
+        },
+        {
+          "value": "false",
+          "label": "False",
+          "default": "true"
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "cloud"
+    },
+    {
       "name": "ibm_pm_private_ssh_key",
       "type": "string",
       "description": "Private CAMC SSH key (base64 encoded) used to connect to the virtual guest.",
@@ -144,31 +167,8 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "ssh_keys"
-    },
-    {
-      "name": "TomcatNode01_local_disk",
-      "type": "string",
-      "description": "User local disk or SAN disk",
-      "default": "false",
-      "hidden": false,
-      "label": "IBMCloud - Local / SAN Disk - TomcatNode01",
-      "secured": false,
-      "options": [
-        {
-          "value": "true",
-          "label": "True"
-        },
-        {
-          "value": "false",
-          "label": "False",
-          "default": "true"
-        }
-      ],
-      "required": true,
-      "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "ssh_keys"
     },
     {
       "name": "TomcatNode01_datacenter",
@@ -308,7 +308,7 @@
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "cloud"
     },
     {
       "name": "TomcatNode01_dedicated_acct_host_only",
@@ -332,7 +332,7 @@
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "cloud"
     },
     {
       "name": "TomcatNode01_hourly_billing",
@@ -356,7 +356,7 @@
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "cloud"
     },
     {
       "name": "TomcatNode01_network_speed",
@@ -380,7 +380,7 @@
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "cloud"
     },
     {
       "name": "TomcatNode01_private_network_only",
@@ -404,7 +404,7 @@
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "cloud"
     },
     {
       "name": "TomcatNode01_memory",
@@ -448,7 +448,7 @@
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "cloud"
     },
     {
       "name": "TomcatNode01_number_of_cores",
@@ -492,7 +492,7 @@
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "cloud"
     },
     {
       "name": "TomcatNode01-image",
@@ -509,7 +509,7 @@
     {
       "name": "TomcatNode01-os_admin_user",
       "type": "string",
-      "description": "Name of admin user account in virtual machine to be SSHed into; Please refer to the documents from OS image vendors to obtain the default admin users",
+      "description": "Name of the admin user account in the virtual machine that will be accessed via SSH",
       "hidden": false,
       "label": "Operating System Username - TomcatNode01",
       "secured": false,
@@ -532,23 +532,25 @@
         },
         {
           "value": "100",
-          "label": "100 GB"
+          "label": "100 GB",
+          "default": true
         }
       ],
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "cloud"
     },
     {
       "name": "TomcatNode01-name",
       "type": "string",
-      "description": "Short Hostname of virtual machine",
+      "description": "Short hostname of virtual machine",
       "hidden": false,
-      "label": "Short Hostname - TomcatNode01",
+      "label": "Short hostname - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
+      "immutable_after_create": true,
       "group_name": "virtualmachine"
     },
     {
@@ -1068,7 +1070,7 @@
       "description": "Expose and use public IP of virtual machine for internal communication",
       "default": "true",
       "hidden": false,
-      "label": "Use Public Management Network - TomcatNode01",
+      "label": "Use Public Management Network",
       "secured": false,
       "options": [
         {
@@ -1083,7 +1085,7 @@
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
-      "group_name": "tomcatnode01"
+      "group_name": "virtualmachine"
     },
     {
       "name": "runtime_domain",

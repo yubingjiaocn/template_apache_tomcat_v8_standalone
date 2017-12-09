@@ -12,10 +12,6 @@
       "label": "Cloud Input Variables"
     },
     {
-      "name": "virtualmachine",
-      "label": "Virtual Machine Input Variables"
-    },
-    {
       "name": "ssh_keys",
       "label": "SSH Keys"
     },
@@ -26,6 +22,10 @@
     {
       "name": "tomcatnode01",
       "label": "TomcatNode01"
+    },
+    {
+      "name": "virtualmachine",
+      "label": "Virtual Machine Input Variables"
     }
   ],
   "output_groups": [
@@ -68,6 +68,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
+      "immutable_after_create": true,
       "group_name": "ssh_keys"
     },
     {
@@ -200,7 +201,7 @@
     {
       "name": "TomcatNode01-os_admin_user",
       "type": "string",
-      "description": "Name of admin user account in virtual machine to be SSHed into; Please refer to the documents from OS image vendors to obtain the default admin users",
+      "description": "Name of the admin user account in the virtual machine that will be accessed via SSH",
       "hidden": false,
       "label": "Operating System Username - TomcatNode01",
       "secured": false,
@@ -246,9 +247,9 @@
     {
       "name": "TomcatNode01-name",
       "type": "string",
-      "description": "Short Hostname of virtual machine",
+      "description": "Short hostname of virtual machine",
       "hidden": false,
-      "label": "Short Hostname - TomcatNode01",
+      "label": "Short hostname - TomcatNode01",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -869,7 +870,7 @@
       "name": "TomcatNode01_memory",
       "type": "string",
       "description": "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024",
-      "default": "4096",
+      "default": 4096,
       "hidden": false,
       "label": "Virtual Machine Memory - TomcatNode01",
       "secured": false,
@@ -892,7 +893,7 @@
       "name": "TomcatNode01_number_of_vcpu",
       "type": "string",
       "description": "Number of virtual CPU for the virtual machine, which is required to be a positive Integer",
-      "default": "2",
+      "default": 2,
       "hidden": false,
       "label": "Virtual Machine vCPUs - TomcatNode01",
       "secured": false,
