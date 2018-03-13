@@ -1,11 +1,11 @@
 {
-  "input_namespaces": [
+  "input_datatypes": [
     {
       "name": "advanced_content_runtime_chef",
       "label": "Advanced Content Runtime"
     }
   ],
-  "output_namespace": "content_template_output",
+  "output_datatype": "content_template_output",
   "input_groups": [
     {
       "name": "cloud",
@@ -35,6 +35,17 @@
     }
   ],
   "template_input_params": [
+    {
+      "name": "ibm_stack_id",
+      "type": "string",
+      "description": "A unique stack id.",
+      "hidden": true,
+      "label": "A unique stack id.",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "environment"
+    },
     {
       "name": "ibm_stack_name",
       "type": "string",
@@ -156,7 +167,7 @@
       "name": "TomcatNode01_root_block_device_volume_size",
       "type": "string",
       "description": "AWS Root Block Device Volume Size",
-      "default": 100,
+      "default": "100",
       "hidden": false,
       "label": "AWS Root Block Device Volume Size",
       "secured": false,
@@ -284,6 +295,7 @@
       "secured": true,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment",
       "default": "${advanced_content_runtime_chef.ibm_sw_repo_password}"
     },
@@ -296,6 +308,7 @@
       "secured": false,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment",
       "default": "${advanced_content_runtime_chef.ibm_sw_repo}"
     },
@@ -309,6 +322,7 @@
       "secured": false,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment"
     },
     {
@@ -441,11 +455,11 @@
       "hidden": false,
       "label": "Tomcat SSL keystore password - TomcatNode01",
       "secured": true,
-      "regex": "^[!-~]{8,32}$",
-      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
+      "regex": "^[!-~]{8,32}$",
+      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "group_name": "tomcatnode01"
     },
     {
@@ -492,11 +506,11 @@
       "hidden": false,
       "label": "Tomcat admin user password - TomcatNode01",
       "secured": true,
-      "regex": "^[!-~]{8,32}$",
-      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
+      "regex": "^[!-~]{8,32}$",
+      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "group_name": "tomcatnode01"
     },
     {
@@ -620,7 +634,7 @@
       "description": "Tomcat roles: admin-gui",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: admin-gui - TomcatNode01",
+      "label": "Tomcat role admin-gui - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -644,7 +658,7 @@
       "description": "Tomcat roles: manager-gui",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: manager-gui - TomcatNode01",
+      "label": "Tomcat role manager-gui - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -668,7 +682,7 @@
       "description": "Tomcat roles: manager-jmx",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: manager-jmx - TomcatNode01",
+      "label": "Tomcat role manager-jmx - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -692,7 +706,7 @@
       "description": "Tomcat roles: manager-script",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: manager-script - TomcatNode01",
+      "label": "Tomcat role manager-script - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -716,7 +730,7 @@
       "description": "Tomcat roles: manager-status",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: manager-status - TomcatNode01",
+      "label": "Tomcat role manager-status - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -753,7 +767,7 @@
       "description": "Tomcat users administrator roles: admin-gui",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: admin-gui - TomcatNode01",
+      "label": "Tomcat users administrator role admin-gui - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -777,7 +791,7 @@
       "description": "Tomcat users administrator roles: manager-gui",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: manager-gui - TomcatNode01",
+      "label": "Tomcat users administrator role manager-gui - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -801,7 +815,7 @@
       "description": "Tomcat users administrator roles: manager-jmx",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: manager-jmx - TomcatNode01",
+      "label": "Tomcat users administrator role manager-jmx - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -825,7 +839,7 @@
       "description": "Tomcat users administrator roles: manager-script",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: manager-script - TomcatNode01",
+      "label": "Tomcat users administrator role manager-script - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -849,7 +863,7 @@
       "description": "Tomcat users administrator roles: manager-status",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: manager-status - TomcatNode01",
+      "label": "Tomcat users administrator role manager-status - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -903,7 +917,6 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
       "group_name": "virtualmachine"
     },
     {
@@ -926,7 +939,6 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
       "group_name": "virtualmachine"
     },
     {

@@ -1,11 +1,11 @@
 {
-  "input_namespaces": [
+  "input_datatypes": [
     {
       "name": "advanced_content_runtime_chef",
       "label": "Advanced Content Runtime"
     }
   ],
-  "output_namespace": "content_template_output",
+  "output_datatype": "content_template_output",
   "input_groups": [
     {
       "name": "cloud",
@@ -36,6 +36,17 @@
   ],
   "template_input_params": [
     {
+      "name": "ibm_stack_id",
+      "type": "string",
+      "description": "A unique stack id.",
+      "hidden": true,
+      "label": "A unique stack id.",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "environment"
+    },
+    {
       "name": "ibm_stack_name",
       "type": "string",
       "description": "A unique stack name.",
@@ -57,19 +68,6 @@
       "required": true,
       "immutable": false,
       "group_name": "cloud"
-    },
-    {
-      "name": "user_public_ssh_key",
-      "type": "string",
-      "description": "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH.",
-      "default": "None",
-      "hidden": false,
-      "label": "User Public SSH Key - ssh_keys",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "ssh_keys"
     },
     {
       "name": "TomcatNode01_dns_servers",
@@ -160,6 +158,7 @@
       "secured": true,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment",
       "default": "${advanced_content_runtime_chef.ibm_sw_repo_password}"
     },
@@ -172,6 +171,7 @@
       "secured": false,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment",
       "default": "${advanced_content_runtime_chef.ibm_sw_repo}"
     },
@@ -185,6 +185,7 @@
       "secured": false,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment"
     },
     {
@@ -245,6 +246,31 @@
       "default": "${advanced_content_runtime_chef.ibm_pm_public_ssh_key}"
     },
     {
+      "name": "user_public_ssh_key",
+      "type": "string",
+      "description": "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH.",
+      "default": "None",
+      "hidden": false,
+      "label": "User Public SSH Key - ssh_keys",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "immutable_after_create": true,
+      "group_name": "ssh_keys"
+    },
+    {
+      "name": "TomcatNode01_root_disk_size",
+      "type": "string",
+      "description": "Size of template disk volume. Should be equal to template's disk size",
+      "default": "100",
+      "hidden": false,
+      "label": "Root Disk Size - TomcatNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
       "name": "TomcatNode01-name",
       "type": "string",
       "description": "Short hostname of virtual machine",
@@ -256,79 +282,12 @@
       "group_name": "virtualmachine"
     },
     {
-      "name": "TomcatNode01_root_disk_controller_type",
-      "type": "string",
-      "description": "Type of template disk controller",
-      "default": "scsi",
-      "hidden": false,
-      "label": "Template Disk Controller - TomcatNode01",
-      "secured": false,
-      "options": [
-        {
-          "value": "scsi",
-          "label": "scsi",
-          "default": "true"
-        },
-        {
-          "value": "scsi-lsi-parallel",
-          "label": "scsi-lsi-parallel"
-        },
-        {
-          "value": "scsi-buslogic",
-          "label": "scsi-buslogic"
-        },
-        {
-          "value": "scsi-paravirtual",
-          "label": "scsi-paravirtual"
-        },
-        {
-          "value": "scsi-isi-sas",
-          "label": "scsi-isi-sas"
-        },
-        {
-          "value": "ide",
-          "label": "ide"
-        }
-      ],
-      "required": true,
-      "immutable": false,
-      "group_name": "virtualmachine"
-    },
-    {
       "name": "TomcatNode01_root_disk_datastore",
       "type": "string",
       "description": "Data store or storage cluster name for target virtual machine's disks",
       "hidden": false,
       "label": "Template Disk Datastore - TomcatNode01",
       "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "virtualmachine"
-    },
-    {
-      "name": "TomcatNode01_root_disk_type",
-      "type": "string",
-      "description": "Type of template disk volume",
-      "default": "eager_zeroed",
-      "hidden": false,
-      "label": "Template Disk Type - TomcatNode01",
-      "secured": false,
-      "options": [
-        {
-          "value": "eager_zeroed",
-          "label": "Thick Provision Eager Zeroed",
-          "default": "true"
-        },
-        {
-          "value": "lazy",
-          "label": "Thick Provision Lazy Zeroed"
-        },
-        {
-          "value": "thin",
-          "label": "Thin Provision",
-          "group_name": "virtualmachine"
-        }
-      ],
       "required": true,
       "immutable": false,
       "group_name": "virtualmachine"
@@ -392,11 +351,11 @@
       "hidden": false,
       "label": "Tomcat SSL keystore password - TomcatNode01",
       "secured": true,
-      "regex": "^[!-~]{8,32}$",
-      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
+      "regex": "^[!-~]{8,32}$",
+      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "group_name": "tomcatnode01"
     },
     {
@@ -443,11 +402,11 @@
       "hidden": false,
       "label": "Tomcat admin user password - TomcatNode01",
       "secured": true,
-      "regex": "^[!-~]{8,32}$",
-      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "required": true,
       "immutable": false,
       "immutable_after_create": true,
+      "regex": "^[!-~]{8,32}$",
+      "regexdesc": "Allow 8 to 32 printable ASCII characters except space.",
       "group_name": "tomcatnode01"
     },
     {
@@ -571,7 +530,7 @@
       "description": "Tomcat roles: admin-gui",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: admin-gui - TomcatNode01",
+      "label": "Tomcat role admin-gui - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -595,7 +554,7 @@
       "description": "Tomcat roles: manager-gui",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: manager-gui - TomcatNode01",
+      "label": "Tomcat role manager-gui - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -619,7 +578,7 @@
       "description": "Tomcat roles: manager-jmx",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: manager-jmx - TomcatNode01",
+      "label": "Tomcat role manager-jmx - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -643,7 +602,7 @@
       "description": "Tomcat roles: manager-script",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: manager-script - TomcatNode01",
+      "label": "Tomcat role manager-script - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -667,7 +626,7 @@
       "description": "Tomcat roles: manager-status",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat roles: manager-status - TomcatNode01",
+      "label": "Tomcat role manager-status - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -704,7 +663,7 @@
       "description": "Tomcat users administrator roles: admin-gui",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: admin-gui - TomcatNode01",
+      "label": "Tomcat users administrator role admin-gui - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -728,7 +687,7 @@
       "description": "Tomcat users administrator roles: manager-gui",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: manager-gui - TomcatNode01",
+      "label": "Tomcat users administrator role manager-gui - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -752,7 +711,7 @@
       "description": "Tomcat users administrator roles: manager-jmx",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: manager-jmx - TomcatNode01",
+      "label": "Tomcat users administrator role manager-jmx - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -776,7 +735,7 @@
       "description": "Tomcat users administrator roles: manager-script",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: manager-script - TomcatNode01",
+      "label": "Tomcat users administrator role manager-script - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -800,7 +759,7 @@
       "description": "Tomcat users administrator roles: manager-status",
       "default": "enabled",
       "hidden": false,
-      "label": "Tomcat users administrator roles: manager-status - TomcatNode01",
+      "label": "Tomcat users administrator role manager-status - TomcatNode01",
       "secured": false,
       "options": [
         {
@@ -919,7 +878,7 @@
       "hidden": false,
       "label": "vSphere Cluster - TomcatNode01",
       "secured": false,
-      "required": true,
+      "required": false,
       "immutable": false,
       "group_name": "cloud"
     },
@@ -930,7 +889,7 @@
       "hidden": false,
       "label": "vSphere Datacenter - TomcatNode01",
       "secured": false,
-      "required": true,
+      "required": false,
       "immutable": false,
       "group_name": "cloud"
     },
@@ -941,7 +900,7 @@
       "hidden": false,
       "label": "vSphere Folder Name - TomcatNode01",
       "secured": false,
-      "required": true,
+      "required": false,
       "immutable": false,
       "group_name": "cloud"
     },
@@ -964,6 +923,17 @@
           "default": "e1000"
         }
       ],
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "TomcatNode01_resource_pool",
+      "type": "string",
+      "description": "Target vSphere Resource Pool to host the virtual machine",
+      "hidden": false,
+      "label": "vSphere Resource Pool - TomcatNode01",
+      "secured": false,
       "required": true,
       "immutable": false,
       "group_name": "virtualmachine"

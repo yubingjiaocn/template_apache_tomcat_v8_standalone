@@ -1,5 +1,5 @@
 # Template - Apache Tomcat on a single virtual machine
-Template Version - 1.0
+Template Version - 2.0
 
 ## Description
 
@@ -10,10 +10,6 @@ This template deploys Apache Tomcat on a Linux virtual machine.<br>
 ### Clouds
 
  VMware<br>
-<br>
-### Template Version
-
-1.0<br>
 <br>
 ### Operating Systems Supported
 
@@ -31,7 +27,7 @@ Apache Tomcat Server Version 8<br>
 <br>
 ### Default Virtual Machine Settings
 
- vCPU 2, Memory (GB) 4<br>
+ vCPU 2, Memory (GB) 4, Disk (GB) 100<br>
 <br>
 ### Usage and Special Notes
 
@@ -44,7 +40,7 @@ Apache Tomcat Server Version 8<br>
 
 ### License and Maintainer
 
-Copyright IBM Corp. 2016, 2017 
+Copyright IBM Corp. 2017, 2018 
 
 ### Target Cloud Type
 

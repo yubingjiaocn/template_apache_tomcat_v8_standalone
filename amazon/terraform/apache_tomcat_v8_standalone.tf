@@ -1,9 +1,17 @@
 # =================================================================
-# Licensed Materials - Property of IBM
-# 5737-E67
-# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
-# US Government Users Restricted Rights - Use, duplication or disclosure
-# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright 2017 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#	you may not use this file except in compliance with the License.
+#	You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # =================================================================
 
 # This is a terraform generated template generated from apache_tomcat_v8_standalone
@@ -23,6 +31,10 @@ variable "user_public_ssh_key" {
   type = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
   default = "None"
+}
+
+variable "ibm_stack_id" {
+  description = "A unique stack id."
 }
 
 variable "aws_ami_owner_id" {
@@ -51,10 +63,6 @@ provider "template" {
   version = "~> 1.0"
 }
 
-provider "random" {
-  version = "~> 1.0"
-}
-
 data "aws_vpc" "selected_vpc" {
   filter {
     name = "tag:Name"
@@ -75,10 +83,6 @@ data "aws_security_group" "aws_sg_camc_name_selected" {
 #Parameter : aws_sg_camc_name
 variable "aws_sg_camc_name" {
   description = "AWS Security Group Name"
-}
-
-resource "random_id" "stack_id" {
-  byte_length = "16"
 }
 
 ##############################################################
@@ -259,35 +263,35 @@ variable "TomcatNode01_tomcat_ssl_port" {
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_admin-gui
 variable "TomcatNode01_tomcat_ui_control_all_roles_admin-gui" {
   type = "string"
-  description = "Tomcat roles: admin-gui"
+  description = "Tomcat role admin-gui"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-gui
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-gui" {
   type = "string"
-  description = "Tomcat roles: manager-gui"
+  description = "Tomcat role manager-gui"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-jmx
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-jmx" {
   type = "string"
-  description = "Tomcat roles: manager-jmx"
+  description = "Tomcat role manager-jmx"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-script
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-script" {
   type = "string"
-  description = "Tomcat roles: manager-script"
+  description = "Tomcat role manager-script"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-status
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-status" {
   type = "string"
-  description = "Tomcat roles: manager-status"
+  description = "Tomcat role manager-status"
   default = "enabled"
 }
 
@@ -314,35 +318,35 @@ variable "TomcatNode01_tomcat_ui_control_users_administrator_status" {
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_admin-gui
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_admin-gui" {
   type = "string"
-  description = "Tomcat users administrator roles: admin-gui"
+  description = "Tomcat users administrator role admin-gui"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-gui
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-gui" {
   type = "string"
-  description = "Tomcat users administrator roles: manager-gui"
+  description = "Tomcat users administrator role manager-gui"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-jmx
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-jmx" {
   type = "string"
-  description = "Tomcat users administrator roles: manager-jmx"
+  description = "Tomcat users administrator role manager-jmx"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-script
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-script" {
   type = "string"
-  description = "Tomcat users administrator roles: manager-script"
+  description = "Tomcat users administrator role manager-script"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-status
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-status" {
   type = "string"
-  description = "Tomcat users administrator roles: manager-status"
+  description = "Tomcat users administrator role manager-status"
   default = "enabled"
 }
 
@@ -447,11 +451,20 @@ resource "aws_instance" "TomcatNode01" {
     destination = "TomcatNode01_add_ssh_key.sh"
     content     = <<EOF
 # =================================================================
-# Licensed Materials - Property of IBM
-# 5737-E67
-# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
-# US Government Users Restricted Rights - Use, duplication or disclosure
-# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright 2017 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#	you may not use this file except in compliance with the License.
+#	You may obtain a copy of the License at
+#
+#	  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#	WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # =================================================================
 #!/bin/bash
 
@@ -530,17 +543,17 @@ resource "camc_bootstrap" "TomcatNode01_chef_bootstrap_comp" {
   data = <<EOT
 {
   "os_admin_user": "${var.TomcatNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
   "host_ip": "${var.TomcatNode01-mgmt-network-public == "false" ? aws_instance.TomcatNode01.private_ip : aws_instance.TomcatNode01.public_ip}",
   "node_name": "${var.TomcatNode01-name}",
   "node_attributes": {
     "ibm_internal": {
-      "stack_id": "${random_id.stack_id.hex}",
+      "stack_id": "${var.ibm_stack_id}",
       "stack_name": "${var.ibm_stack_name}",
       "vault": {
         "item": "secrets",
-        "name": "${random_id.stack_id.hex}"
+        "name": "${var.ibm_stack_id}"
       }
     }
   }
@@ -563,7 +576,7 @@ resource "camc_softwaredeploy" "TomcatNode01_tomcat" {
   data = <<EOT
 {
   "os_admin_user": "${var.TomcatNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
   "host_ip": "${var.TomcatNode01-mgmt-network-public == "false" ? aws_instance.TomcatNode01.private_ip : aws_instance.TomcatNode01.public_ip}",
   "node_name": "${var.TomcatNode01-name}",
@@ -649,7 +662,7 @@ resource "camc_softwaredeploy" "TomcatNode01_tomcat" {
         }
       }
     },
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
@@ -670,7 +683,7 @@ resource "camc_vaultitem" "VaultItem" {
   "vault_content": {
     "item": "secrets",
     "values": {},
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
@@ -689,6 +702,6 @@ output "TomcatNode01_roles" {
 }
 
 output "stack_id" {
-  value = "${random_id.stack_id.hex}"
+  value = "${var.ibm_stack_id}"
 }
 

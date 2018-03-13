@@ -1,20 +1,32 @@
 # =================================================================
-# Licensed Materials - Property of IBM
-# 5737-E67
-# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
-# US Government Users Restricted Rights - Use, duplication or disclosure
-# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright 2017 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#	you may not use this file except in compliance with the License.
+#	You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # =================================================================
 
 # This is a terraform generated template generated from apache_tomcat_v8_standalone
 
 ##############################################################
-# Keys - CAMC (public/private) & optional User Key (public) 
+# Keys - CAMC (public/private) & optional User Key (public)
 ##############################################################
 variable "user_public_ssh_key" {
   type = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
   default = "None"
+}
+
+variable "ibm_stack_id" {
+  description = "A unique stack id."
 }
 
 variable "ibm_pm_public_ssh_key" {
@@ -31,33 +43,48 @@ variable "allow_unverified_ssl" {
 }
 
 ##############################################################
-# Define the vsphere provider 
+# Define the vsphere provider
 ##############################################################
 provider "vsphere" {
   allow_unverified_ssl = "${var.allow_unverified_ssl}"
-  version = "~> 0.4"
+  version = "~> 1.3"
 }
 
 provider "camc" {
   version = "~> 0.1"
 }
 
-provider "random" {
-  version = "~> 1.0"
-}
-
-resource "random_id" "stack_id" {
-  byte_length = "16"
-}
-
 ##############################################################
-# Define pattern variables 
+# Define pattern variables
 ##############################################################
 ##### unique stack name #####
 variable "ibm_stack_name" {
   description = "A unique stack name."
 }
 
+##############################################################
+# Vsphere data for provider
+##############################################################
+data "vsphere_datacenter" "TomcatNode01_datacenter" {
+  name = "${var.TomcatNode01_datacenter}"
+}
+data "vsphere_datastore" "TomcatNode01_datastore" {
+  name = "${var.TomcatNode01_root_disk_datastore}"
+  datacenter_id = "${data.vsphere_datacenter.TomcatNode01_datacenter.id}"
+}
+data "vsphere_resource_pool" "TomcatNode01_resource_pool" {
+  name = "${var.TomcatNode01_resource_pool}"
+  datacenter_id = "${data.vsphere_datacenter.TomcatNode01_datacenter.id}"
+}
+data "vsphere_network" "TomcatNode01_network" {
+  name = "${var.TomcatNode01_network_interface_label}"
+  datacenter_id = "${data.vsphere_datacenter.TomcatNode01_datacenter.id}"
+}
+
+data "vsphere_virtual_machine" "TomcatNode01_template" {
+  name = "${var.TomcatNode01-image}"
+  datacenter_id = "${data.vsphere_datacenter.TomcatNode01_datacenter.id}"
+}
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
@@ -218,35 +245,35 @@ variable "TomcatNode01_tomcat_ssl_port" {
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_admin-gui
 variable "TomcatNode01_tomcat_ui_control_all_roles_admin-gui" {
   type = "string"
-  description = "Tomcat roles: admin-gui"
+  description = "Tomcat role admin-gui"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-gui
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-gui" {
   type = "string"
-  description = "Tomcat roles: manager-gui"
+  description = "Tomcat role manager-gui"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-jmx
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-jmx" {
   type = "string"
-  description = "Tomcat roles: manager-jmx"
+  description = "Tomcat role manager-jmx"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-script
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-script" {
   type = "string"
-  description = "Tomcat roles: manager-script"
+  description = "Tomcat role manager-script"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-status
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-status" {
   type = "string"
-  description = "Tomcat roles: manager-status"
+  description = "Tomcat role manager-status"
   default = "enabled"
 }
 
@@ -273,35 +300,35 @@ variable "TomcatNode01_tomcat_ui_control_users_administrator_status" {
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_admin-gui
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_admin-gui" {
   type = "string"
-  description = "Tomcat users administrator roles: admin-gui"
+  description = "Tomcat users administrator role admin-gui"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-gui
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-gui" {
   type = "string"
-  description = "Tomcat users administrator roles: manager-gui"
+  description = "Tomcat users administrator role manager-gui"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-jmx
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-jmx" {
   type = "string"
-  description = "Tomcat users administrator roles: manager-jmx"
+  description = "Tomcat users administrator role manager-jmx"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-script
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-script" {
   type = "string"
-  description = "Tomcat users administrator roles: manager-script"
+  description = "Tomcat users administrator role manager-script"
   default = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-status
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-status" {
   type = "string"
-  description = "Tomcat users administrator roles: manager-status"
+  description = "Tomcat users administrator role manager-status"
   default = "enabled"
 }
 
@@ -350,6 +377,10 @@ variable "TomcatNode01_cluster" {
   description = "Target vSphere cluster to host the virtual machine"
 }
 
+variable "TomcatNode01_resource_pool" {
+  description = "Target vSphere Resource Pool to host the virtual machine"
+}
+
 variable "TomcatNode01_dns_suffixes" {
   type = "list"
   description = "Name resolution suffixes for the virtual network adapter"
@@ -385,50 +416,52 @@ variable "TomcatNode01_root_disk_datastore" {
   description = "Data store or storage cluster name for target virtual machine's disks"
 }
 
-variable "TomcatNode01_root_disk_type" {
-  type = "string"
-  description = "Type of template disk volume"
-  default = "eager_zeroed"
-}
-
-variable "TomcatNode01_root_disk_controller_type" {
-  type = "string"
-  description = "Type of template disk controller"
-  default = "scsi"
-}
-
 variable "TomcatNode01_root_disk_keep_on_remove" {
   type = "string"
   description = "Delete template disk volume when the virtual machine is deleted"
   default = "false"
 }
 
+variable "TomcatNode01_root_disk_size" {
+  description = "Size of template disk volume. Should be equal to template's disk size"
+  default = "100"
+}
+
 # vsphere vm
 resource "vsphere_virtual_machine" "TomcatNode01" {
   name = "${var.TomcatNode01-name}"
-  domain = "${var.TomcatNode01_domain}"
   folder = "${var.TomcatNode01_folder}"
-  datacenter = "${var.TomcatNode01_datacenter}"
-  vcpu = "${var.TomcatNode01_number_of_vcpu}"
+  num_cpus = "${var.TomcatNode01_number_of_vcpu}"
   memory = "${var.TomcatNode01_memory}"
-  cluster = "${var.TomcatNode01_cluster}"
-  dns_suffixes = "${var.TomcatNode01_dns_suffixes}"
-  dns_servers = "${var.TomcatNode01_dns_servers}"
+  resource_pool_id = "${data.vsphere_resource_pool.TomcatNode01_resource_pool.id}"
+  datastore_id = "${data.vsphere_datastore.TomcatNode01_datastore.id}"
+  guest_id = "${data.vsphere_virtual_machine.TomcatNode01_template.guest_id}"
+  clone {
+    template_uuid = "${data.vsphere_virtual_machine.TomcatNode01_template.id}"
+    customize {
+      linux_options {
+        domain = "${var.TomcatNode01_domain}"
+        host_name = "${var.TomcatNode01-name}"
+      }
+    network_interface {
+      ipv4_address = "${var.TomcatNode01_ipv4_address}"
+      ipv4_netmask = "${var.TomcatNode01_ipv4_prefix_length}"
+    }
+    ipv4_gateway = "${var.TomcatNode01_ipv4_gateway}"
+    dns_suffix_list = "${var.TomcatNode01_dns_suffixes}"
+    dns_server_list = "${var.TomcatNode01_dns_servers}"
+    }
+  }
 
   network_interface {
-    label = "${var.TomcatNode01_network_interface_label}"
-    ipv4_gateway = "${var.TomcatNode01_ipv4_gateway}"
-    ipv4_address = "${var.TomcatNode01_ipv4_address}"
-    ipv4_prefix_length = "${var.TomcatNode01_ipv4_prefix_length}"
+    network_id = "${data.vsphere_network.TomcatNode01_network.id}"
     adapter_type = "${var.TomcatNode01_adapter_type}"
   }
 
   disk {
-    type = "${var.TomcatNode01_root_disk_type}"
-    template = "${var.TomcatNode01-image}"
-    datastore = "${var.TomcatNode01_root_disk_datastore}"
+    label = "${var.TomcatNode01-name}.disk0"
+    size = "${var.TomcatNode01_root_disk_size}"
     keep_on_remove = "${var.TomcatNode01_root_disk_keep_on_remove}"
-    controller_type = "${var.TomcatNode01_root_disk_controller_type}"
   }
 
   # Specify the connection
@@ -442,11 +475,20 @@ resource "vsphere_virtual_machine" "TomcatNode01" {
     destination = "TomcatNode01_add_ssh_key.sh"
     content     = <<EOF
 # =================================================================
-# Licensed Materials - Property of IBM
-# 5737-E67
-# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
-# US Government Users Restricted Rights - Use, duplication or disclosure
-# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright 2017 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#	you may not use this file except in compliance with the License.
+#	You may obtain a copy of the License at
+#
+#	  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#	WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # =================================================================
 #!/bin/bash
 
@@ -520,17 +562,17 @@ resource "camc_bootstrap" "TomcatNode01_chef_bootstrap_comp" {
   data = <<EOT
 {
   "os_admin_user": "${var.TomcatNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
-  "host_ip": "${vsphere_virtual_machine.TomcatNode01.network_interface.0.ipv4_address}",
+  "host_ip": "${vsphere_virtual_machine.TomcatNode01.clone.0.customize.0.network_interface.0.ipv4_address}",
   "node_name": "${var.TomcatNode01-name}",
   "node_attributes": {
     "ibm_internal": {
-      "stack_id": "${random_id.stack_id.hex}",
+      "stack_id": "${var.ibm_stack_id}",
       "stack_name": "${var.ibm_stack_name}",
       "vault": {
         "item": "secrets",
-        "name": "${random_id.stack_id.hex}"
+        "name": "${var.ibm_stack_id}"
       }
     }
   }
@@ -553,9 +595,9 @@ resource "camc_softwaredeploy" "TomcatNode01_tomcat" {
   data = <<EOT
 {
   "os_admin_user": "${var.TomcatNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
-  "host_ip": "${vsphere_virtual_machine.TomcatNode01.network_interface.0.ipv4_address}",
+  "host_ip": "${vsphere_virtual_machine.TomcatNode01.clone.0.customize.0.network_interface.0.ipv4_address}",
   "node_name": "${var.TomcatNode01-name}",
   "runlist": "role[tomcat]",
   "node_attributes": {
@@ -639,7 +681,7 @@ resource "camc_softwaredeploy" "TomcatNode01_tomcat" {
         }
       }
     },
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
@@ -660,14 +702,14 @@ resource "camc_vaultitem" "VaultItem" {
   "vault_content": {
     "item": "secrets",
     "values": {},
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
 }
 
 output "TomcatNode01_ip" {
-  value = "VM IP Address : ${vsphere_virtual_machine.TomcatNode01.network_interface.0.ipv4_address}"
+  value = "VM IP Address : ${vsphere_virtual_machine.TomcatNode01.clone.0.customize.0.network_interface.0.ipv4_address}"
 }
 
 output "TomcatNode01_name" {
@@ -679,6 +721,5 @@ output "TomcatNode01_roles" {
 }
 
 output "stack_id" {
-  value = "${random_id.stack_id.hex}"
+  value = "${var.ibm_stack_id}"
 }
-
