@@ -83,7 +83,7 @@
     },
     {
       "name": "ibm_sw_repo_password",
-      "type": "string",
+      "type": "password",
       "description": "IBM Software Repo Password",
       "hidden": true,
       "label": "IBM Software Repo Password",
@@ -268,7 +268,7 @@
         },
         {
           "value": "mex01",
-          "label": "Querétaro, Mexico"
+          "label": "Quer\u00e9taro, Mexico"
         },
         {
           "value": "sjc01",
@@ -608,7 +608,7 @@
     },
     {
       "name": "TomcatNode01_tomcat_ssl_keystore_password",
-      "type": "string",
+      "type": "password",
       "description": "The keystore password used in Tomcat for SSL configuration.",
       "hidden": false,
       "label": "Tomcat SSL keystore password - TomcatNode01",
@@ -659,7 +659,7 @@
     },
     {
       "name": "TomcatNode01_tomcat_ui_control_users_administrator_password",
-      "type": "string",
+      "type": "password",
       "description": "Password of the admin user to be configured in Tomcat.",
       "hidden": false,
       "label": "Tomcat admin user password - TomcatNode01",

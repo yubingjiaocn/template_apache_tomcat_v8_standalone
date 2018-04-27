@@ -151,7 +151,7 @@
     },
     {
       "name": "ibm_sw_repo_password",
-      "type": "string",
+      "type": "password",
       "description": "IBM Software Repo Password",
       "hidden": true,
       "label": "IBM Software Repo Password",
@@ -212,7 +212,7 @@
     },
     {
       "name": "TomcatNode01-os_password",
-      "type": "string",
+      "type": "password",
       "description": "Operating System Password for the Operating System User to access virtual machine",
       "hidden": false,
       "label": "Operating system password - TomcatNode01",
@@ -346,7 +346,7 @@
     },
     {
       "name": "TomcatNode01_tomcat_ssl_keystore_password",
-      "type": "string",
+      "type": "password",
       "description": "The keystore password used in Tomcat for SSL configuration.",
       "hidden": false,
       "label": "Tomcat SSL keystore password - TomcatNode01",
@@ -397,7 +397,7 @@
     },
     {
       "name": "TomcatNode01_tomcat_ui_control_users_administrator_password",
-      "type": "string",
+      "type": "password",
       "description": "Password of the admin user to be configured in Tomcat.",
       "hidden": false,
       "label": "Tomcat admin user password - TomcatNode01",

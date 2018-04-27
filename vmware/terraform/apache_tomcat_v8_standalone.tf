@@ -20,9 +20,9 @@
 # Keys - CAMC (public/private) & optional User Key (public)
 ##############################################################
 variable "user_public_ssh_key" {
-  type = "string"
+  type        = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
-  default = "None"
+  default     = "None"
 }
 
 variable "ibm_stack_id" {
@@ -39,7 +39,7 @@ variable "ibm_pm_private_ssh_key" {
 
 variable "allow_unverified_ssl" {
   description = "Communication with vsphere server with self signed certificate"
-  default = "true"
+  default     = "true"
 }
 
 ##############################################################
@@ -47,7 +47,7 @@ variable "allow_unverified_ssl" {
 ##############################################################
 provider "vsphere" {
   allow_unverified_ssl = "${var.allow_unverified_ssl}"
-  version = "~> 1.3"
+  version              = "~> 1.3"
 }
 
 provider "camc" {
@@ -68,277 +68,278 @@ variable "ibm_stack_name" {
 data "vsphere_datacenter" "TomcatNode01_datacenter" {
   name = "${var.TomcatNode01_datacenter}"
 }
+
 data "vsphere_datastore" "TomcatNode01_datastore" {
-  name = "${var.TomcatNode01_root_disk_datastore}"
+  name          = "${var.TomcatNode01_root_disk_datastore}"
   datacenter_id = "${data.vsphere_datacenter.TomcatNode01_datacenter.id}"
 }
+
 data "vsphere_resource_pool" "TomcatNode01_resource_pool" {
-  name = "${var.TomcatNode01_resource_pool}"
+  name          = "${var.TomcatNode01_resource_pool}"
   datacenter_id = "${data.vsphere_datacenter.TomcatNode01_datacenter.id}"
 }
+
 data "vsphere_network" "TomcatNode01_network" {
-  name = "${var.TomcatNode01_network_interface_label}"
+  name          = "${var.TomcatNode01_network_interface_label}"
   datacenter_id = "${data.vsphere_datacenter.TomcatNode01_datacenter.id}"
 }
 
 data "vsphere_virtual_machine" "TomcatNode01_template" {
-  name = "${var.TomcatNode01-image}"
+  name          = "${var.TomcatNode01-image}"
   datacenter_id = "${data.vsphere_datacenter.TomcatNode01_datacenter.id}"
 }
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
 variable "ibm_pm_access_token" {
-  type = "string"
+  type        = "string"
   description = "IBM Pattern Manager Access Token"
 }
 
 #Variable : ibm_pm_service
 variable "ibm_pm_service" {
-  type = "string"
+  type        = "string"
   description = "IBM Pattern Manager Service"
 }
 
 #Variable : ibm_sw_repo
 variable "ibm_sw_repo" {
-  type = "string"
+  type        = "string"
   description = "IBM Software Repo Root (https://<hostname>:<port>)"
 }
 
 #Variable : ibm_sw_repo_password
 variable "ibm_sw_repo_password" {
-  type = "string"
+  type        = "string"
   description = "IBM Software Repo Password"
 }
 
 #Variable : ibm_sw_repo_user
 variable "ibm_sw_repo_user" {
-  type = "string"
+  type        = "string"
   description = "IBM Software Repo Username"
-  default = "repouser"
+  default     = "repouser"
 }
-
 
 ##### TomcatNode01 variables #####
 #Variable : TomcatNode01-image
 variable "TomcatNode01-image" {
-  type = "string"
+  type        = "string"
   description = "Operating system image id / template that should be used when creating the virtual image"
 }
 
 #Variable : TomcatNode01-name
 variable "TomcatNode01-name" {
-  type = "string"
+  type        = "string"
   description = "Short hostname of virtual machine"
 }
 
 #Variable : TomcatNode01-os_admin_user
 variable "TomcatNode01-os_admin_user" {
-  type = "string"
+  type        = "string"
   description = "Name of the admin user account in the virtual machine that will be accessed via SSH"
 }
 
 #Variable : TomcatNode01_tomcat_http_port
 variable "TomcatNode01_tomcat_http_port" {
-  type = "string"
+  type        = "string"
   description = "The Tomcat port to service HTTP requests."
-  default = "8080"
+  default     = "8080"
 }
 
 #Variable : TomcatNode01_tomcat_install_dir
 variable "TomcatNode01_tomcat_install_dir" {
-  type = "string"
+  type        = "string"
   description = "Specifies the directory to install Tomcat."
-  default = "/opt/tomcat8"
+  default     = "/opt/tomcat8"
 }
 
 #Variable : TomcatNode01_tomcat_instance_dirs_log_dir
 variable "TomcatNode01_tomcat_instance_dirs_log_dir" {
-  type = "string"
+  type        = "string"
   description = "Specifies the directory for Tomcat log files."
-  default = "/var/log/tomcat8"
+  default     = "/var/log/tomcat8"
 }
 
 #Variable : TomcatNode01_tomcat_instance_dirs_temp_dir
 variable "TomcatNode01_tomcat_instance_dirs_temp_dir" {
-  type = "string"
+  type        = "string"
   description = "Specifies the temporary directory for Tomcat."
-  default = "/var/tmp/tomcat8/temp"
+  default     = "/var/tmp/tomcat8/temp"
 }
 
 #Variable : TomcatNode01_tomcat_instance_dirs_webapps_dir
 variable "TomcatNode01_tomcat_instance_dirs_webapps_dir" {
-  type = "string"
+  type        = "string"
   description = "Specifies the Tomcat directory for web applications."
-  default = "/var/lib/tomcat8/webapps"
+  default     = "/var/lib/tomcat8/webapps"
 }
 
 #Variable : TomcatNode01_tomcat_instance_dirs_work_dir
 variable "TomcatNode01_tomcat_instance_dirs_work_dir" {
-  type = "string"
+  type        = "string"
   description = "Specifies the Tomcat working directory."
-  default = "/var/tmp/tomcat8/work"
+  default     = "/var/tmp/tomcat8/work"
 }
 
 #Variable : TomcatNode01_tomcat_java_java_sdk
 variable "TomcatNode01_tomcat_java_java_sdk" {
-  type = "string"
+  type        = "string"
   description = "Specifies the use of a Java Development Kit (false) or Runtime Environment (true)."
-  default = "false"
+  default     = "false"
 }
 
 #Variable : TomcatNode01_tomcat_java_vendor
 variable "TomcatNode01_tomcat_java_vendor" {
-  type = "string"
+  type        = "string"
   description = "Currently only openjdk is supported as the Tomcat java vendor."
-  default = "openjdk"
+  default     = "openjdk"
 }
 
 #Variable : TomcatNode01_tomcat_java_version
 variable "TomcatNode01_tomcat_java_version" {
-  type = "string"
+  type        = "string"
   description = "The version of Java to be used for Tomcat."
-  default = "1.8.0"
+  default     = "1.8.0"
 }
 
 #Variable : TomcatNode01_tomcat_os_users_daemon_gid
 variable "TomcatNode01_tomcat_os_users_daemon_gid" {
-  type = "string"
+  type        = "string"
   description = "Specifies the name of the Operating System group for Tomcat daemon users."
-  default = "tomcat"
+  default     = "tomcat"
 }
 
 #Variable : TomcatNode01_tomcat_os_users_daemon_ldap_user
 variable "TomcatNode01_tomcat_os_users_daemon_ldap_user" {
-  type = "string"
+  type        = "string"
   description = "Specifies whether the Tomcat daemon user is stored in LDAP."
-  default = "false"
+  default     = "false"
 }
 
 #Variable : TomcatNode01_tomcat_os_users_daemon_name
 variable "TomcatNode01_tomcat_os_users_daemon_name" {
-  type = "string"
+  type        = "string"
   description = "Specifies the user for the Tomcat daemon."
-  default = "tomcat"
+  default     = "tomcat"
 }
 
 #Variable : TomcatNode01_tomcat_ssl_enabled
 variable "TomcatNode01_tomcat_ssl_enabled" {
-  type = "string"
+  type        = "string"
   description = "Indicates whether to enable the Tomcat SSL connector."
-  default = "true"
+  default     = "true"
 }
 
 #Variable : TomcatNode01_tomcat_ssl_keystore_password
 variable "TomcatNode01_tomcat_ssl_keystore_password" {
-  type = "string"
+  type        = "string"
   description = "The keystore password used in Tomcat for SSL configuration."
 }
 
 #Variable : TomcatNode01_tomcat_ssl_port
 variable "TomcatNode01_tomcat_ssl_port" {
-  type = "string"
+  type        = "string"
   description = "Tomcat port for SSL communication"
-  default = "8443"
+  default     = "8443"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_admin-gui
 variable "TomcatNode01_tomcat_ui_control_all_roles_admin-gui" {
-  type = "string"
+  type        = "string"
   description = "Tomcat role admin-gui"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-gui
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-gui" {
-  type = "string"
+  type        = "string"
   description = "Tomcat role manager-gui"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-jmx
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-jmx" {
-  type = "string"
+  type        = "string"
   description = "Tomcat role manager-jmx"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-script
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-script" {
-  type = "string"
+  type        = "string"
   description = "Tomcat role manager-script"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_all_roles_manager-status
 variable "TomcatNode01_tomcat_ui_control_all_roles_manager-status" {
-  type = "string"
+  type        = "string"
   description = "Tomcat role manager-status"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_name
 variable "TomcatNode01_tomcat_ui_control_users_administrator_name" {
-  type = "string"
+  type        = "string"
   description = "Name of the admin user to be configured in Tomcat."
-  default = "admin"
+  default     = "admin"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_password
 variable "TomcatNode01_tomcat_ui_control_users_administrator_password" {
-  type = "string"
+  type        = "string"
   description = "Password of the admin user to be configured in Tomcat."
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_status
 variable "TomcatNode01_tomcat_ui_control_users_administrator_status" {
-  type = "string"
+  type        = "string"
   description = "Specifies whether to enable the admin user in the Tomcat configuration."
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_admin-gui
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_admin-gui" {
-  type = "string"
+  type        = "string"
   description = "Tomcat users administrator role admin-gui"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-gui
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-gui" {
-  type = "string"
+  type        = "string"
   description = "Tomcat users administrator role manager-gui"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-jmx
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-jmx" {
-  type = "string"
+  type        = "string"
   description = "Tomcat users administrator role manager-jmx"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-script
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-script" {
-  type = "string"
+  type        = "string"
   description = "Tomcat users administrator role manager-script"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-status
 variable "TomcatNode01_tomcat_ui_control_users_administrator_user_roles_manager-status" {
-  type = "string"
+  type        = "string"
   description = "Tomcat users administrator role manager-status"
-  default = "enabled"
+  default     = "enabled"
 }
 
 #Variable : TomcatNode01_tomcat_version
 variable "TomcatNode01_tomcat_version" {
-  type = "string"
+  type        = "string"
   description = "The version of Tomcat to be installed."
-  default = "8.0.15"
+  default     = "8.0.15"
 }
-
 
 ##### virtualmachine variables #####
 
@@ -347,7 +348,7 @@ variable "TomcatNode01_tomcat_version" {
 #########################################################
 
 variable "TomcatNode01-os_password" {
-  type = "string"
+  type        = "string"
   description = "Operating System Password for the Operating System User to access virtual machine"
 }
 
@@ -365,12 +366,12 @@ variable "TomcatNode01_domain" {
 
 variable "TomcatNode01_number_of_vcpu" {
   description = "Number of virtual CPU for the virtual machine, which is required to be a positive Integer"
-  default = "2"
+  default     = "2"
 }
 
 variable "TomcatNode01_memory" {
   description = "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024"
-  default = "4096"
+  default     = "4096"
 }
 
 variable "TomcatNode01_cluster" {
@@ -382,12 +383,12 @@ variable "TomcatNode01_resource_pool" {
 }
 
 variable "TomcatNode01_dns_suffixes" {
-  type = "list"
+  type        = "list"
   description = "Name resolution suffixes for the virtual network adapter"
 }
 
 variable "TomcatNode01_dns_servers" {
-  type = "list"
+  type        = "list"
   description = "DNS servers for the virtual network adapter"
 }
 
@@ -409,7 +410,7 @@ variable "TomcatNode01_ipv4_prefix_length" {
 
 variable "TomcatNode01_adapter_type" {
   description = "Network adapter type for vNIC Configuration"
-  default = "vmxnet3"
+  default     = "vmxnet3"
 }
 
 variable "TomcatNode01_root_disk_datastore" {
@@ -417,63 +418,69 @@ variable "TomcatNode01_root_disk_datastore" {
 }
 
 variable "TomcatNode01_root_disk_keep_on_remove" {
-  type = "string"
+  type        = "string"
   description = "Delete template disk volume when the virtual machine is deleted"
-  default = "false"
+  default     = "false"
 }
 
 variable "TomcatNode01_root_disk_size" {
   description = "Size of template disk volume. Should be equal to template's disk size"
-  default = "100"
+  default     = "100"
 }
 
 # vsphere vm
 resource "vsphere_virtual_machine" "TomcatNode01" {
-  name = "${var.TomcatNode01-name}"
-  folder = "${var.TomcatNode01_folder}"
-  num_cpus = "${var.TomcatNode01_number_of_vcpu}"
-  memory = "${var.TomcatNode01_memory}"
+  name             = "${var.TomcatNode01-name}"
+  folder           = "${var.TomcatNode01_folder}"
+  num_cpus         = "${var.TomcatNode01_number_of_vcpu}"
+  memory           = "${var.TomcatNode01_memory}"
   resource_pool_id = "${data.vsphere_resource_pool.TomcatNode01_resource_pool.id}"
-  datastore_id = "${data.vsphere_datastore.TomcatNode01_datastore.id}"
-  guest_id = "${data.vsphere_virtual_machine.TomcatNode01_template.guest_id}"
+  datastore_id     = "${data.vsphere_datastore.TomcatNode01_datastore.id}"
+  guest_id         = "${data.vsphere_virtual_machine.TomcatNode01_template.guest_id}"
+  scsi_type        = "${data.vsphere_virtual_machine.TomcatNode01_template.scsi_type}"
+
   clone {
     template_uuid = "${data.vsphere_virtual_machine.TomcatNode01_template.id}"
+
     customize {
       linux_options {
-        domain = "${var.TomcatNode01_domain}"
+        domain    = "${var.TomcatNode01_domain}"
         host_name = "${var.TomcatNode01-name}"
       }
-    network_interface {
-      ipv4_address = "${var.TomcatNode01_ipv4_address}"
-      ipv4_netmask = "${var.TomcatNode01_ipv4_prefix_length}"
-    }
-    ipv4_gateway = "${var.TomcatNode01_ipv4_gateway}"
-    dns_suffix_list = "${var.TomcatNode01_dns_suffixes}"
-    dns_server_list = "${var.TomcatNode01_dns_servers}"
+
+      network_interface {
+        ipv4_address = "${var.TomcatNode01_ipv4_address}"
+        ipv4_netmask = "${var.TomcatNode01_ipv4_prefix_length}"
+      }
+
+      ipv4_gateway    = "${var.TomcatNode01_ipv4_gateway}"
+      dns_suffix_list = "${var.TomcatNode01_dns_suffixes}"
+      dns_server_list = "${var.TomcatNode01_dns_servers}"
     }
   }
 
   network_interface {
-    network_id = "${data.vsphere_network.TomcatNode01_network.id}"
+    network_id   = "${data.vsphere_network.TomcatNode01_network.id}"
     adapter_type = "${var.TomcatNode01_adapter_type}"
   }
 
   disk {
-    label = "${var.TomcatNode01-name}.disk0"
-    size = "${var.TomcatNode01_root_disk_size}"
+    label          = "${var.TomcatNode01-name}.disk0"
+    size           = "${var.TomcatNode01_root_disk_size}"
     keep_on_remove = "${var.TomcatNode01_root_disk_keep_on_remove}"
   }
 
   # Specify the connection
   connection {
-    type = "ssh"
-    user = "${var.TomcatNode01-os_admin_user}"
+    type     = "ssh"
+    user     = "${var.TomcatNode01-os_admin_user}"
     password = "${var.TomcatNode01-os_password}"
   }
 
   provisioner "file" {
     destination = "TomcatNode01_add_ssh_key.sh"
-    content     = <<EOF
+
+    content = <<EOF
 # =================================================================
 # Copyright 2017 IBM Corporation
 #
@@ -542,10 +549,9 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "bash -c 'chmod +x TomcatNode01_add_ssh_key.sh'",
-      "bash -c './TomcatNode01_add_ssh_key.sh  \"${var.TomcatNode01-os_admin_user}\" \"${var.user_public_ssh_key}\" \"${var.ibm_pm_public_ssh_key}\">> TomcatNode01_add_ssh_key.log 2>&1'"
+      "bash -c './TomcatNode01_add_ssh_key.sh  \"${var.TomcatNode01-os_admin_user}\" \"${var.user_public_ssh_key}\" \"${var.ibm_pm_public_ssh_key}\">> TomcatNode01_add_ssh_key.log 2>&1'",
     ]
   }
-
 }
 
 #########################################################
@@ -553,12 +559,13 @@ EOF
 #########################################################
 
 resource "camc_bootstrap" "TomcatNode01_chef_bootstrap_comp" {
-  depends_on = ["camc_vaultitem.VaultItem","vsphere_virtual_machine.TomcatNode01"]
-  name = "TomcatNode01_chef_bootstrap_comp"
-  camc_endpoint = "${var.ibm_pm_service}/v1/bootstrap/chef"
-  access_token = "${var.ibm_pm_access_token}"
+  depends_on      = ["camc_vaultitem.VaultItem", "vsphere_virtual_machine.TomcatNode01"]
+  name            = "TomcatNode01_chef_bootstrap_comp"
+  camc_endpoint   = "${var.ibm_pm_service}/v1/bootstrap/chef"
+  access_token    = "${var.ibm_pm_access_token}"
   skip_ssl_verify = true
-  trace = true
+  trace           = true
+
   data = <<EOT
 {
   "os_admin_user": "${var.TomcatNode01-os_admin_user}",
@@ -580,18 +587,18 @@ resource "camc_bootstrap" "TomcatNode01_chef_bootstrap_comp" {
 EOT
 }
 
-
 #########################################################
 ##### Resource : TomcatNode01_tomcat
 #########################################################
 
 resource "camc_softwaredeploy" "TomcatNode01_tomcat" {
-  depends_on = ["camc_bootstrap.TomcatNode01_chef_bootstrap_comp"]
-  name = "TomcatNode01_tomcat"
-  camc_endpoint = "${var.ibm_pm_service}/v1/software_deployment/chef"
-  access_token = "${var.ibm_pm_access_token}"
+  depends_on      = ["camc_bootstrap.TomcatNode01_chef_bootstrap_comp"]
+  name            = "TomcatNode01_tomcat"
+  camc_endpoint   = "${var.ibm_pm_service}/v1/software_deployment/chef"
+  access_token    = "${var.ibm_pm_access_token}"
   skip_ssl_verify = true
-  trace = true
+  trace           = true
+
   data = <<EOT
 {
   "os_admin_user": "${var.TomcatNode01-os_admin_user}",
@@ -687,16 +694,16 @@ resource "camc_softwaredeploy" "TomcatNode01_tomcat" {
 EOT
 }
 
-
 #########################################################
 ##### Resource : VaultItem
 #########################################################
 
 resource "camc_vaultitem" "VaultItem" {
-  camc_endpoint = "${var.ibm_pm_service}/v1/vault_item/chef"
-  access_token = "${var.ibm_pm_access_token}"
+  camc_endpoint   = "${var.ibm_pm_service}/v1/vault_item/chef"
+  access_token    = "${var.ibm_pm_access_token}"
   skip_ssl_verify = true
-  trace = true
+  trace           = true
+
   data = <<EOT
 {
   "vault_content": {
