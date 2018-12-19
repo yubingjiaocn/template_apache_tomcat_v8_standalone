@@ -481,6 +481,8 @@ resource "vsphere_virtual_machine" "TomcatNode01" {
     label          = "${var.TomcatNode01-name}.disk0"
     size           = "${var.TomcatNode01_root_disk_size}"
     keep_on_remove = "${var.TomcatNode01_root_disk_keep_on_remove}"
+    thin_provisioned = false
+    eagerly_scrub = true
   }
 
   # Specify the connection
