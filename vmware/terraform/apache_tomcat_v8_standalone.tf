@@ -495,7 +495,7 @@ resource "vsphere_virtual_machine" "TomcatNode01" {
     bastion_private_key = "${ length(var.bastion_private_key) > 0 ? base64decode(var.bastion_private_key) : var.bastion_private_key}"
     bastion_port        = "${var.bastion_port}"
     bastion_host_key    = "${var.bastion_host_key}"
-    bastion_password    = "${var.bastion_password}"    
+    bastion_password    = "${var.bastion_password}"
   }
 
   provisioner "file" {
@@ -573,6 +573,52 @@ EOF
       "bash -c './TomcatNode01_add_ssh_key.sh  \"${var.TomcatNode01-os_admin_user}\" \"${var.user_public_ssh_key}\" \"${var.ibm_pm_public_ssh_key}\">> TomcatNode01_add_ssh_key.log 2>&1'",
     ]
   }
+provisioner "file" {
+    destination = "TomcatNode01_enable_yum.sh"
+
+    content = <<EOF
+    rm -rf /etc/yum.repos.d/*
+    cat << EOR > /etc/yum.repos.d/rhel.repo
+[ftp3]
+name=FTP3 yum repository
+baseurl=ftp://jiajj%40cn.ibm.com:Passw0rd@ftp3.linux.ibm.com/redhat/yum/server/7/7Server/x86_64/os/
+enabled=1
+gpgcheck=0
+[ftp3-updates]
+name=FTP3 updates yum repository
+baseurl=ftp://jiajj%40cn.ibm.com:Passw0rd@ftp3.linux.ibm.com/redhat/yum/server/7/7Server/x86_64/optional/os/
+enabled=1
+gpgcheck=0
+[ftp3-supplementary]
+name=FTP3 supplementary yum repository
+baseurl=ftp://jiajj%40cn.ibm.com:Passw0rd@ftp3.linux.ibm.com/redhat/yum/server/7/7Server/x86_64/supplementary/os/
+enabled=1
+gpgcheck=0
+[ftp3-extra]
+name=FTP3 extra yum repository
+baseurl=ftp://jiajj%40cn.ibm.com:Passw0rd@ftp3.linux.ibm.com/redhat/yum/server/7/7Server/x86_64/extras/os/
+enabled=1
+gpgcheck=0
+[epel]
+name=Extra Packages for Enterprise Linux 7 - \$basearch
+baseurl=http://9.181.26.145/repo/epel/7/\$basearch
+enabled=1
+gpgcheck=0
+EOR
+    yum makecache
+    service firewalld stop
+
+EOF
+  }
+
+  # Execute the script remotely
+  provisioner "remote-exec" {
+    inline = [
+      "bash -c 'chmod +x TomcatNode01_enable_yum.sh'",
+      "bash -c './TomcatNode01_enable_yum.sh >> TomcatNode01_add_ssh_key.log 2>&1'",
+    ]
+  }
+
 }
 
 #########################################################
